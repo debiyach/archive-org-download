@@ -8,13 +8,15 @@ export default {
       quality: 1,
       succeed: 0,
       failed: 0,
+      proceed: 0
     }
   },
   methods: {
-    async download() {
+    download() {
 
       this.succeed = 0;
       this.failed = 0;
+      this.proceed = 0;
 
       const pdf = new jspdf.jsPDF();
       const bookReader = new BookReader(window.br);
@@ -37,19 +39,28 @@ export default {
           if (response.ok) {
             this.succeed++
           }
+          return response;
         }).catch(() => this.failed++);
 
       });
 
+
       Promise.all(pages).then(async responses => {
         for (const response of responses) {
           const buffer = await response.arrayBuffer();
-          pdf.addImage(new Uint8Array(buffer), 'JPEG', 0, 0, width, height);
-          pdf.addPage();
+          if (buffer) {
+            pdf.addImage(new Uint8Array(buffer), 'JPEG', 0, 0, width, height);
+            pdf.addPage();
+            this.proceed++
+          }
         }
       }).finally(_ => {
         // PDF should be created when all processes are finished
-        pdf.save(bookReader.pdfName);
+        if(this.proceed == this.succeed){
+          pdf.save(bookReader.pdfName);
+        }else{
+          this.proceed = 'An error was encountered. Open an issue on Github.'
+        }
       })
     }
   }

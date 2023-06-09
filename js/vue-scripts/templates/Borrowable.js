@@ -5,6 +5,8 @@ export default `<div>
     <br>
     Failed: {{ failed }}
     <br />
+    Proceed: {{ proceed }}
+    <br />
     <div class="d-flex j-content-evenly a-items-center">
     <div>
     <label>Quality: &nbsp; </label>
