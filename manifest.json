@@ -1,0 +1,39 @@
+{
+    "manifest_version": 3,
+    "author": "Ömer Faruk",
+    "description": "Downloads books borrowed from archive.org",
+    "name": "ePub Downloader (archive.org)",
+    "version": "0.1.0",
+    "icons": {
+        "128": "assets/images/logo128.png"
+    },
+    "action": {
+        "default_icon": {
+            "128": "assets/images/logo128.png"
+        },
+        "default_title": "archive.org ePub downloader"
+    },
+    "background": {
+        "service_worker": "js/service-worker.js",
+        "type": "module"
+    },
+    "permissions": [
+        "tabs",
+        "scripting",
+        "declarativeNetRequest"
+    ],
+    "host_permissions": [
+        "<all_urls>"
+    ],
+    "web_accessible_resources": [
+        {
+            "resources": [
+                "css/*",
+                "js/*"
+            ],
+            "matches": [
+                "https://archive.org/*"
+            ]
+        }
+    ]
+}
